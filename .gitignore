@@ -1,0 +1,31 @@
+node_modules/
+.next/
+/.vercel
+dist/
+build/
+coverage/
+*.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.*
+
+# Prisma generated (adjust if path differs)
+app/generated/prisma
+
+# Local OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Optional: remove if you want to commit snapshots
+__snapshots__/
