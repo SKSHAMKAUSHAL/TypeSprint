@@ -45,6 +45,5 @@ const TestResultSchema = new Schema<ITestResult>({
 
 // Indexes for fast leaderboard queries
 TestResultSchema.index({ mode: 1, wpm: -1, createdAt: -1 });
-TestResultSchema.index({ createdAt: 1 }); // For TTL index
 
 export const TestResult: Model<ITestResult> = mongoose.models.TestResult || mongoose.model<ITestResult>('TestResult', TestResultSchema);
