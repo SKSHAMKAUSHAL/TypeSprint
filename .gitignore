@@ -12,6 +12,7 @@ pnpm-lock.yaml
 # Environment variables
 .env
 .env.*
+!.env.example
 
 # Prisma generated (adjust if path differs)
 app/generated/prisma

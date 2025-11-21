@@ -120,29 +120,33 @@ export const TypingArea: React.FC<TypingAreaProps> = ({
   return (
     <div className="relative w-full max-w-4xl mx-auto">
       {/* Stats Bar */}
-      <div className="flex items-center justify-between mb-8 px-4">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-primary" />
+      <div className="flex items-center justify-between mb-8 px-6 py-4 bg-card/30 border border-border/50 rounded-2xl backdrop-blur-sm">
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Zap className="w-5 h-5 text-primary" />
+            </div>
             <div className="flex flex-col">
-              <span className="text-xs text-muted-foreground font-mono">WPM</span>
-              <span className="text-2xl font-bold font-mono tabular-nums">{wpm}</span>
+              <span className="text-xs text-muted-foreground">Speed</span>
+              <span className="text-3xl font-bold tabular-nums">{wpm}</span>
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
-            <Target className="w-5 h-5 text-primary" />
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Target className="w-5 h-5 text-primary" />
+            </div>
             <div className="flex flex-col">
-              <span className="text-xs text-muted-foreground font-mono">ACC</span>
-              <span className="text-2xl font-bold font-mono tabular-nums">{accuracy}%</span>
+              <span className="text-xs text-muted-foreground">Accuracy</span>
+              <span className="text-3xl font-bold tabular-nums">{accuracy}%</span>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col items-end">
-          <span className="text-xs text-muted-foreground font-mono">TIME</span>
-          <span className={`text-3xl font-bold font-mono tabular-nums transition-colors ${
-            timeLeft <= 5 ? 'text-destructive' : 'text-foreground'
+          <span className="text-xs text-muted-foreground">Time Left</span>
+          <span className={`text-4xl font-bold tabular-nums transition-all duration-300 ${
+            timeLeft <= 5 ? 'text-destructive animate-pulse' : 'text-primary'
           }`}>
             {timeLeft}s
           </span>
@@ -154,12 +158,12 @@ export const TypingArea: React.FC<TypingAreaProps> = ({
         <div
           ref={textContainerRef}
           tabIndex={0}
-          className={`relative bg-card border border-border rounded-lg p-8 min-h-[240px] transition-all duration-300 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 ${
+          className={`relative bg-gradient-to-br from-card/80 to-card/40 border-2 border-border/50 rounded-2xl p-10 min-h-[280px] transition-all duration-300 outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10 shadow-lg ${
             status === 'finished' ? 'blur-sm' : ''
           }`}
         >
           {/* Text Content */}
-          <div className="text-3xl font-mono leading-relaxed select-none whitespace-pre-wrap">
+          <div className="text-3xl leading-[3rem] select-none whitespace-pre-wrap">
             {chars.map((char, index) => {
               const statusChar = getCharStatus(index);
               return (
@@ -250,9 +254,16 @@ export const TypingArea: React.FC<TypingAreaProps> = ({
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mt-6 text-muted-foreground text-sm font-mono"
+            transition={{ delay: 0.2 }}
+            className="text-center mt-8 space-y-2"
           >
-            Start typing to begin the test...
+            <p className="text-muted-foreground text-sm">Start typing to begin the test</p>
+            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground/60">
+              <kbd className="px-2 py-1 bg-muted border border-border rounded text-[10px]">TAB</kbd>
+              <span>+</span>
+              <kbd className="px-2 py-1 bg-muted border border-border rounded text-[10px]">ENTER</kbd>
+              <span>to restart anytime</span>
+            </div>
           </motion.div>
         )}
       </div>

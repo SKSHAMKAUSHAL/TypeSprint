@@ -5,6 +5,7 @@ import { RotateCcw, Keyboard, Clock } from 'lucide-react';
 import { useTypingEngine } from '@/hooks/useTypingGame';
 import { TypingArea } from '@/components/game/TypingBoard';
 import { ResultsModal } from '@/components/game/ResultsModal';
+import { Leaderboard } from '@/components/game/Leaderboard';
 import { Button } from '@/components/ui/button';
 
 // Word pool for generating random typing tests
@@ -102,19 +103,19 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border">
-        <div className="container mx-auto px-4 py-6">
+      <header className="border-b border-border/50 backdrop-blur-sm bg-background/80 sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Keyboard className="w-6 h-6 text-primary" />
+            <div className="flex items-center gap-4">
+              <div className="p-2.5 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl border border-primary/20">
+                <Keyboard className="w-7 h-7 text-primary" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold tracking-tight">
                   Type<span className="text-primary">Sprint</span>
                 </h1>
-                <p className="text-sm text-muted-foreground font-mono">
-                  Test your typing speed & accuracy
+                <p className="text-xs text-muted-foreground">
+                  Master your typing skills
                 </p>
               </div>
             </div>
@@ -122,11 +123,11 @@ export default function Home() {
             {/* Restart Button */}
             <button
               onClick={handleReset}
-              className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-card/80 border border-border rounded-lg transition-all duration-200 hover:border-primary group"
+              className="flex items-center gap-2 px-5 py-2.5 bg-background hover:bg-muted/50 border border-border rounded-xl transition-all duration-200 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 group"
               aria-label="Restart test"
             >
-              <RotateCcw className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors group-hover:rotate-180 duration-300" />
-              <span className="font-mono text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+              <RotateCcw className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-all group-hover:rotate-180 duration-500" />
+              <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
                 Restart
               </span>
             </button>
@@ -136,75 +137,85 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-180px)]">
-          <TypingArea
-            targetText={targetText}
-            userInput={state.userInput}
-            errors={state.errors}
-            status={state.status}
-            wpm={stats.wpm}
-            accuracy={stats.accuracy}
-            timeLeft={state.timeLeft}
-          />
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-8 min-h-[calc(100vh-180px)]">
+          {/* Main Typing Area */}
+          <div className="flex flex-col items-center justify-center">
+            <TypingArea
+              targetText={targetText}
+              userInput={state.userInput}
+              errors={state.errors}
+              status={state.status}
+              wpm={stats.wpm}
+              accuracy={stats.accuracy}
+              timeLeft={state.timeLeft}
+            />
 
-          {/* Instructions and Timer Selection */}
-          {state.status === 'idle' && (
+            {/* Instructions and Timer Selection */}
+            {state.status === 'idle' && (
             <div className="mt-12 flex flex-col items-center gap-6 max-w-2xl">
               {/* Timer Duration Selection */}
-              <div className="flex items-center justify-center gap-2 flex-wrap">
-                <Clock className="w-5 h-5 text-muted-foreground" />
-                {TIMER_OPTIONS.map((option) => {
-                  const active = selectedDuration === option.value;
-                  return (
-                    <Button
-                      key={option.value}
-                      onClick={() => handleDurationChange(option.value)}
-                      variant={active ? 'default' : 'outline'}
-                      size="sm"
-                      aria-pressed={active}
-                      className={active ? 'shadow-inner' : ''}
-                    >
-                      {option.label}
-                    </Button>
-                  );
-                })}
+              <div className="flex items-center justify-center gap-3 flex-wrap p-4 bg-card/30 rounded-2xl border border-border/50">
+                <Clock className="w-5 h-5 text-primary" />
+                <div className="flex gap-2">
+                  {TIMER_OPTIONS.map((option) => {
+                    const active = selectedDuration === option.value;
+                    return (
+                      <Button
+                        key={option.value}
+                        onClick={() => handleDurationChange(option.value)}
+                        variant={active ? 'default' : 'outline'}
+                        size="sm"
+                        aria-pressed={active}
+                        className={active ? 'shadow-md shadow-primary/20 font-medium' : 'hover:border-primary/50'}
+                      >
+                        {option.label}
+                      </Button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-                <div className="flex flex-col items-center p-4 bg-card/50 border border-border rounded-lg">
-                  <div className="text-3xl mb-2">⌨️</div>
-                  <h3 className="font-semibold text-sm mb-1">Just Start Typing</h3>
-                  <p className="text-xs text-muted-foreground text-center">
+                <div className="flex flex-col items-center p-6 bg-gradient-to-br from-card/80 to-card/40 border border-border/50 rounded-xl hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+                  <div className="text-4xl mb-3">⌨️</div>
+                  <h3 className="font-semibold text-sm mb-1.5">Just Start Typing</h3>
+                  <p className="text-xs text-muted-foreground text-center leading-relaxed">
                     No need to click anywhere
                   </p>
                 </div>
                 
-                <div className="flex flex-col items-center p-4 bg-card/50 border border-border rounded-lg">
-                  <div className="text-3xl mb-2">⏱️</div>
-                  <h3 className="font-semibold text-sm mb-1">Timed Test</h3>
-                  <p className="text-xs text-muted-foreground text-center">
+                <div className="flex flex-col items-center p-6 bg-gradient-to-br from-card/80 to-card/40 border border-border/50 rounded-xl hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+                  <div className="text-4xl mb-3">⏱️</div>
+                  <h3 className="font-semibold text-sm mb-1.5">Timed Test</h3>
+                  <p className="text-xs text-muted-foreground text-center leading-relaxed">
                     Type as fast as you can
                   </p>
                 </div>
                 
-                <div className="flex flex-col items-center p-4 bg-card/50 border border-border rounded-lg">
-                  <div className="text-3xl mb-2">🎯</div>
-                  <h3 className="font-semibold text-sm mb-1">Beat Your Best</h3>
-                  <p className="text-xs text-muted-foreground text-center">
+                <div className="flex flex-col items-center p-6 bg-gradient-to-br from-card/80 to-card/40 border border-border/50 rounded-xl hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+                  <div className="text-4xl mb-3">🎯</div>
+                  <h3 className="font-semibold text-sm mb-1.5">Beat Your Best</h3>
+                  <p className="text-xs text-muted-foreground text-center leading-relaxed">
                     Track your progress
                   </p>
                 </div>
               </div>
             </div>
           )}
+          </div>
+
+          {/* Leaderboard Sidebar */}
+          <div className="lg:sticky lg:top-8 lg:self-start">
+            <Leaderboard mode={`${selectedDuration}s`} />
+          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-border">
-        <div className="container mx-auto px-4 py-4">
-          <p className="text-center text-sm text-muted-foreground font-mono">
-            Powered by Next.js 15 & React 19 • Built with TypeScript & Tailwind CSS
+      <footer className="border-t border-border/50 bg-background/80 backdrop-blur-sm mt-auto">
+        <div className="container mx-auto px-6 py-6">
+          <p className="text-center text-xs text-muted-foreground">
+            © 2025 TypeSprint • Built with Next.js & TypeScript
           </p>
         </div>
       </footer>
@@ -212,7 +223,8 @@ export default function Home() {
       {/* Results Modal */}
       <ResultsModal 
         isOpen={state.status === 'finished'} 
-        stats={stats} 
+        stats={stats}
+        duration={selectedDuration}
         onRestart={handleReset} 
       />
     </main>

@@ -9,21 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.0",
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dotenv": "^17.2.3",
     "framer-motion": "^12.0.1",
     "lucide-react": "^0.468.0",
+    "mongodb": "^6.21.0",
+    "mongoose": "^8.20.1",
     "next": "^15.1.5",
-    "prisma": "^6.19.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^3.4.1",
-    "socket.io-client": "^4.8.1",
-    "tailwind-merge": "^3.4.0",
-    "zod": "^4.1.12"
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
